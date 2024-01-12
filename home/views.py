@@ -4,7 +4,7 @@ from .models import Person
 from .serializers import PersonSerializer
 
 
-class HomeView(APIView):
+class Home(APIView):
     def get(self, request):
         persons = Person.objects.all()
         ser_data = PersonSerializer(instance=persons, many=True)
