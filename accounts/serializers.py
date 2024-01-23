@@ -20,6 +20,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
+    def create(self, validated_data):
+        del validated_data['password_confirm']
+        return User.objects.create(**validated_data)
+
     def validate_username(self, data):
         if data.lower() == 'admin':
             raise serializers.ValidationError('Username cant be `admin`')
