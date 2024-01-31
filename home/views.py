@@ -4,10 +4,10 @@ from .models import Person, Question
 from .serializers import PersonSerializer, QuestionSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from permissions import IsOwnerOrReadOnly
 
 
 class Home(APIView):
-    authentication_classes = [IsAuthenticated,]
 
     def get(self, request):
         persons = Person.objects.all()
@@ -32,8 +32,11 @@ class QuestionCreateView(APIView):
 
 
 class QuestionUpdateView(APIView):
+    authentication_classes = [IsOwnerOrReadOnly,]
+
     def put(self, request, pk):
         question = Question.objects.get(pk=pk)
+        self.check_object_permissions(request, question)
         ser_data = QuestionSerializer(
             instance=question, data=request.data, partial=True)
         if ser_data.is_valid():
@@ -43,7 +46,10 @@ class QuestionUpdateView(APIView):
 
 
 class QuestionDeleteView(APIView):
+    authentication_classes = [IsOwnerOrReadOnly,]
+
     def delete(self, request, pk):
         question = Question.objects.get(pk=pk)
+        self.check_object_permissions(request, question)
         question.delete()
         return Response(data={'message': 'question deleted'}, status=status.HTTP_200_OK)
