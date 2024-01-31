@@ -23,6 +23,8 @@ class QuestionListView(APIView):
 
 
 class QuestionCreateView(APIView):
+    permission_classes = [IsAuthenticated,]
+
     def post(self, request):
         ser_data = QuestionSerializer(data=request.data)
         if ser_data.is_valid():
