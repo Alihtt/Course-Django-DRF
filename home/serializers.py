@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Answer, Question
+from .custom_reletional_fields import UserEmailNameReletionalField
 
 
 class PersonSerializer(serializers.Serializer):
@@ -11,6 +12,7 @@ class PersonSerializer(serializers.Serializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     answers = serializers.SerializerMethodField('get_answers')
+    user = UserEmailNameReletionalField(read_only=True)
 
     class Meta:
         model = Question
