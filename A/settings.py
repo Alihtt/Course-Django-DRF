@@ -137,6 +137,9 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "questions": "5/hour",
     },
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
 }
 
 SPECTACULAR_SETTINGS = {
